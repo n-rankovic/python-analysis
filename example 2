@@ -1,0 +1,33 @@
+# example.py
+import os
+
+def greet_user(name):
+    # Hardcoded credentials (security issue)
+    password = "123456"
+
+    if name == "":  # Code smell: Avoid checking empty strings like this
+        print("Name is empty")  # Code smell: Use logging instead of print statements
+    else:
+        print("Hello, " + name)  # Vulnerability: Potential injection if 'name' comes from untrusted input
+
+def calculate_sum(a, b):
+    result = 0
+    for i in range(a, b):  # Bug: Incorrect range, excludes 'b'
+        result = result + i
+    return result
+
+def read_file(filename):
+    # Security issue: Unvalidated file path
+    with open(filename, "r") as file:
+        data = file.read()
+        print(data)
+
+def unused_function():  # Code smell: Unused function
+    pass
+
+# Main script
+print(greet_user(""))  # Bug: Function returns None and gets printed
+print(calculate_sum(1, 10))  # Logical bug: Expected 1 to 10 inclusive, but output is incorrect
+
+# Dangerous call: filename could be manipulated
+read_file("/etc/passwd")
